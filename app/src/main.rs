@@ -1,5 +1,27 @@
 use actix_web::{App, HttpResponse, HttpServer, ResponseError, get};
 use thiserror::Error;
+use askama::Template;
+
+struct TodoEntry {
+    id: u32,
+    text: String,
+}
+
+#[derive(Template)]
+#[template(path = "index.html")]
+struct IndexTemplate {
+    entries: Vec<TodoEntry>
+}
+
+let mut entries = Vec::new();
+entries.push(TodoEntry {
+    id: 1,
+    text: "first entry".to_string(),
+});
+entries.push(TodoEntry {
+    id: 2,
+    text: "second entry".to_string(),
+});
 
 #[derive(Error, Debug)]
 enum MyError {}
