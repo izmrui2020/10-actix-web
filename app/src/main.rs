@@ -12,6 +12,13 @@ struct TodoEntry {
 struct IndexTemplate {
     entries: Vec<TodoEntry>
 }
+#[derive(Error, Debug)]
+enum MyError {}
+impl ResponseError for MyError {
+    #[error("Failed to render HTML")]
+    AskamaError(#[from] askama::Error),
+}
+
 
 let mut entries = Vec::new();
 entries.push(TodoEntry {
@@ -23,11 +30,7 @@ entries.push(TodoEntry {
     text: "second entry".to_string(),
 });
 
-#[derive(Error, Debug)]
-enum MyError {}
-impl ResponseError for MyError {
-    
-}
+
 
 #[get("/")]
 async fn index() -> Result<HttpResponse, MyError> {
