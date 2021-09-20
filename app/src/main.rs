@@ -4,9 +4,21 @@ use r2d2::Pool;
 use r2d2_sqlite::SqliteConnectionManager;
 use rusqlite::params;
 use thiserror::Error;
+use serde::Deserialize;
+
 struct TodoEntry {
     id: u32,
     text: String,
+}
+
+#[derive(Deserialize)]
+struct AddParams {
+    text: String,
+}
+
+#[derive(Deserialize)]
+struct DeleteParams {
+    id: u32,
 }
 
 #[derive(Template)]
